@@ -1,0 +1,318 @@
+{
+	"name": "spice",
+    "scopeName": "source.spice",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#constants"
+        },
+        {
+            "include": "#functions"
+        },
+        {
+            "include": "#types"
+        },
+		{
+            "include": "#keywords"
+        },
+        {
+            "include": "#variables"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "comment": "line comments",
+                    "name": "comment.line.double-slash.spice",
+                    "match": "(//).*$",
+                    "captures": {
+                        "1": {
+                            "name": "punctuation.definition.comment.spice"
+                        }
+                    }
+                }
+            ]
+        },
+		"constants": {
+            "patterns": [
+                {
+                    "comment": "ExternId",
+                    "name": "string.unquoted.spice",
+                    "match": "[%@][A-Za-z0-9_.]+"
+                },
+                {
+                    "comment": "IntLiteral",
+                    "name": "constant.numeric.decimal.spice",
+                    "match": "\\b[0-9]+\\b"
+                },
+                {
+                    "comment": "BVLiteral",
+                    "name": "constant.numeric.hex.spice",
+                    "match": "\\b[0-9]+w[0-9]+\\b"
+                },
+                {
+                    "comment": "Booleans",
+                    "name": "constant.language.bool.spice",
+                    "match": "\\b(true|false)\\b"
+                }
+            ]
+        },
+		"keywords": {
+            "patterns": [
+                {
+                    "comment": "control flow keywords",
+                    "name": "keyword.control.spice",
+                    "match": "\\b(else|if)\\b"
+                },
+                {
+                    "comment": "enum keyword",
+                    "name": "keyword.declaration.enum.spice storage.type.spice",
+                    "match": "\\b(enum)\\b"
+                },
+                {
+                    "comment": "struct keyword",
+                    "name": "keyword.declaration.struct.spice storage.type.spice",
+                    "match": "\\b(struct)\\b"
+                },
+                {
+                    "comment": "other keywords",
+                    "name": "keyword.other.spice",
+                    "match": "\\b(as|use|sext|zext|trunc|havoc|null|let)\\b"
+                },
+                {
+                    "comment": "fn",
+                    "name": "keyword.other.fn.spice",
+                    "match": "\\bfn\\b"
+                }
+            ]
+        },
+		"types": {
+            "patterns": [
+                {
+                    "comment": "bitvec types",
+					"name": "entity.name.type.bitvec.spice",
+                    "begin": "\\b(Int)(<)\\b",
+                    "beginCaptures": {
+                        "2": {
+                            "name": "punctuation.brackets.angle.spice"
+                        }
+                    },
+                    "end": ">",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.angle.spice"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "entity.name.type.bitvec.width.spice",
+                            "match": "[0-9]+"
+                        }
+                    ]
+                },
+                {
+                    "comment": "int types",
+					"name": "entity.name.type.int.spice",
+                    "match": "\\b(Int)\\b"
+                },
+                {
+                    "comment": "list types",
+					"name": "entity.name.type.list.spice",
+                    "begin": "\\b(List)(<)",
+                    "beginCaptures": {
+                        "2": {
+                            "name": "punctuation.brackets.angle.spice"
+                        }
+                    },
+                    "end": ">",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.angle.spice"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "include": "#punctuation"
+                        },
+                        {
+                            "include": "#types"
+                        }
+                    ]
+                },
+                {
+                    "comment": "struct declarations",
+                    "match": "\\b(struct)\\s+(([A-Z][a-z0-9]*)+[a-z0-9])\\b",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.declaration.struct.spice storage.type.spice"
+                        },
+                        "2": {
+                            "name": "entity.name.type.struct.spice"
+                        }
+                    }
+                },
+                {
+                    "comment": "enum declarations",
+                    "match": "\\b(enum)\\s+(([A-Z][a-z0-9]*)+[a-z0-9])\\b",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.declaration.enum.spice storage.type.spice"
+                        },
+                        "2": {
+                            "name": "entity.name.type.enum.spice"
+                        }
+                    }
+                },
+                {
+                    "comment": "types",
+                    "name": "entity.name.type.spice",
+                    "match": "\\b(?<![@%])([A-Z][a-z0-9]*)+[a-z0-9](?!<)\\b"
+                },
+				{
+                    "comment": "generic types",
+                    "name": "entity.name.type.spice",
+                    "match": "\\b(?<![@%])[A-Z]+\\b"
+                }
+            ]
+        },
+        "functions": {
+            "patterns": [
+                {
+                    "comment": "function definition",
+                    "name": "meta.function.definition.spice",
+                    "begin": "\\b(fn)\\s+([a-z_][a-z0-9_]*)((\\()|(<))",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.other.fn.spice"
+                        },
+                        "2": {
+                            "name": "entity.name.function.spice"
+                        },
+                        "4": {
+                            "name": "punctuation.brackets.round.spice"
+                        },
+                        "5": {
+                            "name": "punctuation.brackets.angle.spice"
+                        }
+                    },
+                    "end": "\\{",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.curly.spice"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "include": "#keywords"
+                        },
+                        {
+                            "include": "#constants"
+                        },
+                        {
+                            "include": "#functions"
+                        },
+                        {
+                            "include": "#types"
+                        },
+                        {
+                            "include": "#variables"
+                        }
+                    ]
+                },
+                {
+                    "comment": "function/method calls, chaining",
+                    "name": "meta.function.call.spice",
+                    "begin": "([a-z_][a-z0-9_]*)(\\()",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.function.spice"
+                        },
+                        "2": {
+                            "name": "punctuation.brackets.round.spice"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.round.spice"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "include": "#keywords"
+                        },
+                        {
+                            "include": "#constants"
+                        },
+                        {
+                            "include": "#functions"
+                        },
+                        {
+                            "include": "#types"
+                        },
+                        {
+                            "include": "#variables"
+                        }
+                    ]
+                },
+                {
+                    "comment": "function/method calls with turbofish",
+                    "name": "meta.function.call.spice",
+                    "begin": "([a-z_][a-z0-9_]*)(?=::<.*>\\()",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.function.spice"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.brackets.round.spice"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#comments"
+                        },
+                        {
+                            "include": "#keywords"
+                        },
+                        {
+                            "include": "#constants"
+                        },
+                        {
+                            "include": "#functions"
+                        },
+                        {
+                            "include": "#types"
+                        },
+                        {
+                            "include": "#variables"
+                        }
+                    ]
+                }
+            ]
+        },
+        "variables": {
+            "patterns": [
+                {
+                    "comment": "variables",
+                    "name": "variable.other.spice",
+                    "match": "\\b[a-z_][a-z0-9_]*\\b"
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "spice",
+  "displayName": "spice-lang",
+  "description": "The SPecification language for ICEberg.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.54.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "spice",
+      "aliases": ["SPICE", "spice"],
+      "extensions": [".spec",".spice",".spc"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "spice",
+      "scopeName": "source.spice",
+      "path": "./syntaxes/spice.tmLanguage.json"
+    }]
+  }
+}
